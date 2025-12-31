@@ -1,201 +1,112 @@
-# Dashboard Sección Inicio - IDEMAB
+# IDEMAB - Instituto Internacional de Medicina Alternativa para el Bienestar
 
-## 📋 Descripción
+## Información Institucional
 
-Colección de componentes HTML para la sección de inicio del dashboard de **IDEMAB (Instituto de Educación en Medio Ambiente y Biotecnología)**. Estos componentes están diseñados para ser integrados en WordPress usando widgets HTML personalizados.
+**Nombre Completo:** Instituto Internacional de Medicina Alternativa para el Bienestar  
+**Acrónimo:** IDEMAB  
+**Sitio Web:** https://idemab.com  
+**Panel:** https://panel.idemab.com
 
-## 🎨 Colores Institucionales
+## SEO y Metadata
 
-IDEMAB utiliza un esquema de colores azul-verde que representa la innovación tecnológica y el compromiso ambiental:
+### Dashboard (Panel de Estudiantes)
+**Título del Sitio:** IDEMAB - Mi Dashboard | Plataforma de Medicina Alternativa  
+**Descripción Corta:** Accede a tu plataforma de aprendizaje en Medicina Alternativa. Consulta tus diplomados, cursos, certificados y avanza en tu formación en terapias holísticas.
 
-### Paleta Principal
-- **Azul Principal**: `#1D71B8` - Color primario institucional
-- **Verde Principal**: `#2FAC66` - Color secundario institucional
-- **Azul Hover**: `#2A8DD4` - Estados interactivos
-- **Verde Hover**: `#3DC77A` - Estados interactivos alternativos
+## Colores Institucionales
 
-### Degradado Institucional
-```css
-background: linear-gradient(135deg, #1D71B8 0%, #2FAC66 100%);
-```
+### Paleta de Colores
+- **Azul Primario:** `#1C73BA`
+- **Verde Secundario:** `#2CAC64`
 
-### Variables CSS
-```css
-:root {
-  --idemab-primary-blue: #1D71B8;
-  --idemab-primary-green: #2FAC66;
-  --idemab-blue-light: #2A8DD4;
-  --idemab-green-light: #3DC77A;
-  --idemab-gradient: linear-gradient(135deg, #1D71B8 0%, #2FAC66 100%);
-}
-```
+### Colores de Sistema
+- **Blanco:** `#FFFFFF`
+- **Gris Claro:** `#F5F5F5`
+- **Éxito (Verde):** `#10b981`
+- **Peligro (Rojo):** `#ef4444`
 
-## 📁 Estructura de Archivos
+### Bordes y Sombras
+- **Border Color:** `#e3f2fd`
+- **Box Shadow:** `0 2px 8px rgba(28, 115, 186, 0.06)`
 
-```
-Dashboard-seccion-inicio-IDEMAB/
-├── 01-dashboard-inicio-IDEMAB.html          # Cápsula de navegación "Dashboard > Inicio"
-├── 02-bienvenida-IDEMAB.html                # Mensaje de bienvenida personalizado
-├── 03-reglamento-IDEMAB.html                # Visor de reglamento institucional
-├── 04-plataforma-inactiva-IDEMAB.html       # Aviso de cuenta inactiva
-├── 05-informacion-chatbot-IDEMAB.html       # Información sobre recursos del chatbot
-├── 06-oferta-activa-IDEMAB.html             # Widget de oferta educativa activa
-├── 07-accesos-rapidos-IDEMAB.html           # Enlaces de acceso rápido
-├── Logo-idemab.png                          # Logo institucional
-├── colores-institucionales-IDEMAB.md        # Guía de colores institucionales
-└── README.md                                # Este archivo
-```
+## Contacto
 
-## 🚀 Componentes
+**WhatsApp Soporte:** +52 33 2924 3805  
+**URL WhatsApp:** https://wa.me/5213329243805  
+**Canal WhatsApp:** https://whatsapp.com/channel/0029Vb6HP1w5kg7DYe2Djt1d
 
-### 1. Dashboard Inicio (01)
-Cápsula compacta de navegación que muestra "Plataforma IDEMAB | DASHBOARD > Inicio" con animación de flecha.
+## Redes Sociales
 
-**Características:**
-- Diseño tipo píldora con bordes redondeados
-- Degradado azul-verde institucional
-- Animación sutil de rebote
-- Responsive para móviles
+**Imagen de Cuentas Oficiales:** https://idemab.com/wp-content/uploads/2025/01/Cuentas-reales-Post-05.jpg
 
-### 2. Bienvenida (02)
-Mensaje de bienvenida personalizado para estudiantes.
+## URLs del Panel
 
-### 3. Reglamento (03)
-Visor de reglamento institucional con navegación por páginas.
+- **Mi Cuenta:** https://panel.idemab.com/mi-cuenta/
+- **Iniciar Sesión:** https://panel.idemab.com/iniciar-sesion/
+- **Logout:** https://panel.idemab.com/wp-login.php?action=logout&redirect_to=https%3A%2F%2Fpanel.idemab.com
 
-**Características:**
-- Navegación entre páginas del reglamento
-- Botones con colores institucionales
-- Diseño limpio y profesional
+## Componentes del Dashboard
 
-### 4. Plataforma Inactiva (04)
-Aviso informativo sobre posibles razones de cuenta inactiva.
+### Headers
+- `Header/header-logged-in-IDEMAB.html` - Header para usuarios autenticados
+- `Header/header-logged-out-IDEMAB.html` - Header para usuarios no autenticados
 
-**Características:**
-- Diseño de tarjeta con borde superior azul
-- Iconos informativos
-- Secciones para "Baja Temporal" y "Adeudo en Mensualidad"
-- Colores institucionales en títulos y bordes
+### Especificaciones del Header
+- **Padding:** 3px 10px
+- **Ancho:** 100% (full width)
+- **Altura Mínima:** 50px
+- **Font Size Brand:** 18px (desktop), 16px (mobile)
+- **Font Size Subtitle:** 9px (desktop), 7-8px (mobile)
+- **Color Brand:** Azul primario (#1C73BA)
 
-### 5. Información Chatbot (05)
-Información sobre los recursos disponibles del chatbot IA.
+## Última Actualización
 
-**Características:**
-- Tarjetas con bordes superiores en tonos azul-verde
-- Variables CSS personalizadas
-- Diseño modular y escalable
+Fecha: 2025-12-30  
+Versión: 1.0
 
-### 6. Oferta Activa (06)
-Widget para mostrar ofertas educativas activas.
+## Archivos de Acceso al Dashboard
 
-**Características:**
-- Sistema de variables CSS
-- Colores institucionales aplicados
-- Diseño adaptable
+### Carpeta: `Acceso a dashboard/`
 
-### 7. Accesos Rápidos (07)
-Enlaces rápidos a recursos importantes.
+**Para usuarios autenticados (logged-in):**
+- `login-idemab-snippet.html` - Página de bienvenida con botón "Ir al Dashboard"
+  - Redirige a: `https://panel.idemab.com/plataforma/`
 
-## 💻 Uso en WordPress
+**Para usuarios NO autenticados (logged-out):**
+- `logout-idemab-snippet.html` - Formulario de inicio de sesión
+  - Contiene shortcode: `[profilepress-login id="1"]`
+  - Incluye instrucciones para el usuario
 
-### Integración con Elementor
+**Uso en WordPress:**
+- Copiar y pegar el contenido completo en un widget HTML de Elementor
+- Los snippets no afectan el diseño de la página existente
+- Usan clases CSS únicas para evitar conflictos
 
-1. **Agregar Widget HTML**
-   - Arrastra un widget "HTML" a tu sección
-   - Copia el contenido completo del archivo `.html`
-   - Pega en el editor HTML del widget
+## Recursos Adicionales (Extras)
 
-2. **Configuración Recomendada**
-   - Ancho: 100% del contenedor
-   - Padding: Ajustar según necesidad
-   - Margen: 10px superior e inferior
+### Carpeta: `Extras/`
 
-### Integración con Bloques de WordPress
+**Archivo principal:** `extras-grid-idemab.html`
 
-1. **Bloque HTML Personalizado**
-   - Añade un bloque "HTML personalizado"
-   - Pega el código del componente
-   - Previsualiza y publica
+Grid de recursos adicionales con 3 secciones organizadas por programa:
 
-## 🎯 Características Técnicas
+1. **📚 Biblioteca Reiki**
+   - URL: https://panel.idemab.com/biblioteca-dr/
+   - Biblioteca del Diplomado en Reiki
+   - Badge: "Diplomado Reiki"
 
-### Responsive Design
-- Todos los componentes son responsive
-- Breakpoint móvil: `max-width: 600px`
-- Ajustes automáticos de tamaño y espaciado
+2. **🎥 Videoteca Reiki**
+   - URL: https://panel.idemab.com/videoteca-dr/
+   - Videos del Diplomado en Reiki
+   - Badge: "Diplomado Reiki"
 
-### Tipografía
-```css
-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-```
+3. **🎬 Videoteca UCDM**
+   - URL: https://panel.idemab.com/videoteca-ucdm/
+   - Videos de Un Curso de Milagros
+   - Badge: "Un Curso de Milagros"
 
-### Accesibilidad
-- Contraste de colores optimizado (WCAG 2.1)
-- Texto blanco sobre `#1D71B8`: Ratio 5.3:1 ✅
-- Texto blanco sobre `#2FAC66`: Ratio 3.1:1 (para elementos grandes)
-- Estructura semántica HTML5
-
-## 🔧 Personalización
-
-### Cambiar Colores
-Los colores están centralizados en variables CSS. Para personalizarlos:
-
-```css
-:root {
-  --idemab-primary-blue: #TU_COLOR_AZUL;
-  --idemab-primary-green: #TU_COLOR_VERDE;
-  --idemab-blue-light: #TU_COLOR_HOVER_AZUL;
-  --idemab-green-light: #TU_COLOR_HOVER_VERDE;
-}
-```
-
-### Ajustar Tamaños
-Modifica las variables de tamaño en cada componente:
-
-```css
-.component {
-  font-size: 18px;  /* Ajustar según necesidad */
-  padding: 6px 22px; /* Ajustar espaciado */
-}
-```
-
-## 📱 Compatibilidad
-
-- ✅ Chrome/Edge (últimas versiones)
-- ✅ Firefox (últimas versiones)
-- ✅ Safari (últimas versiones)
-- ✅ Dispositivos móviles iOS/Android
-- ✅ WordPress 5.0+
-- ✅ Elementor 3.0+
-
-## 📝 Notas de Desarrollo
-
-### Versión
-- **Actual**: 1.0.0
-- **Última actualización**: 28 de diciembre de 2025
-- **Commit inicial**: 0bdceeb
-
-### Cambios Recientes
-- ✅ Aplicación de colores institucionales oficiales (#1D71B8, #2FAC66)
-- ✅ Implementación de degradado azul-verde
-- ✅ Actualización de variables CSS
-- ✅ Mejora de accesibilidad y contraste (ratios 5.3:1 y 3.1:1)
-- ✅ Padding estandarizado a 10px en todos los componentes
-- ✅ Margins eliminados para mejor integración con WordPress
-- ✅ 7 componentes HTML completamente funcionales
-
-## 🤝 Contribución
-
-Para mantener la consistencia visual:
-1. Usa siempre los colores institucionales definidos
-2. Mantén la estructura de archivos
-3. Prueba en diferentes navegadores
-4. Verifica la accesibilidad
-
-## 📄 Licencia
-
-Uso interno de IDEMAB - Instituto de Educación en Medio Ambiente y Biotecnología
-
----
-
-**Desarrollado para IDEMAB** | Última actualización: Diciembre 2025
+### Diseño de Extras
+- **Colores**: Gradiente azul IDEMAB (#1C73BA a #2196F3)
+- **Layout**: Grid responsive (3 columnas desktop, 1 mobile)
+- **Badges**: Identificadores de programa en cada tarjeta
+- **Interactividad**: Hover effects con elevación y sombra
