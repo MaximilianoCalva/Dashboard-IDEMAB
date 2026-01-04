@@ -10,8 +10,8 @@
 ## SEO y Metadata
 
 ### Dashboard (Panel de Estudiantes)
-**Título del Sitio:** IDEMAB - Mi Dashboard | Plataforma de Aprendizaje  
-**Descripción Corta:** Accede a tu plataforma de aprendizaje en IDEMAB. Consulta tus diplomados, cursos, certificados y avanza en tu formación.
+**Título del Sitio:** IDEMAB - Panel de Alumnos | Medicina Alternativa y Bienestar
+**Descripción Corta:** Plataforma de estudio del Instituto Internacional de Medicina Alternativa para el Bienestar. Tu espacio para formarte en salud holística y terapias complementarias.
 
 ## Colores Institucionales
 
@@ -28,145 +28,94 @@
 - **Advertencia (Amarillo):** `#f59e0b`
 - **Peligro (Rojo):** `#ef4444`
 
+## Contacto
+
+**Web Principal:** https://idemab.com
+
 ## URLs del Panel
 
 - **Mi Cuenta:** https://panel.idemab.com/mi-cuenta/
 - **Iniciar Sesión:** https://panel.idemab.com/iniciar-sesion/
 - **Panel Access:** https://panel.idemab.com/panel-access/
 
+## Componentes: Headers & Navegación
+
+### Headers (Optimizados Tablet/Mobile 1024px)
+Sistema de headers responsivos con menú hamburguesa para dispositivos con ancho menor a 1024px (tablets y móviles).
+
+#### 1. Header Logged In (Usuario Autenticado)
+**Archivo:** `Header/header-logged-in-IDEMAB.html`
+
+- **Marca:** Logo/Texto "IDEMAB" clickeable (redirige a https://idemab.com).
+- **Desktop (>1024px):** Botones visibles:
+  - 📊 Dashboard
+  - 💬 Soporte (WhatsApp)
+  - 🚪 Cerrar Sesión
+- **Tablet/Móvil (≤1024px):** Menú hamburguesa lateral con overlay.
+
+#### 2. Header Logged Out (Usuario No Autenticado)
+**Archivo:** `Header/header-logged-out-IDEMAB.html`
+
+- **Marca:** Logo/Texto clickeable.
+- **Acción:** Botón "Acceso a tu diplomado".
+- **Responsive:** Menú hamburguesa en tablet/móvil.
+
+#### 3. Header Web Principal
+**Archivo:** `header-idemab.html` (en repo web)
+- Navegación completa del sitio web.
+- Breakpoint 1024px para menú móvil.
+- Dropdowns complejos y responsivos.
+
+### Implementación Técnica
+- **Breakpoint JS/CSS:** 1024px.
+- **Z-Index:** Header (1000), Overlay (998), Menú Lateral (999).
+
 ---
 
-## 📋 Estructura de Sección Inicio
+## Estructura de Sección Inicio (Dashboard)
 
-La sección inicio del Dashboard IDEMAB está organizada en **13 componentes** que siguen un flujo lógico de navegación:
+La sección inicio del Dashboard IDEMAB está organizada en **13 componentes**:
 
 ### 1️⃣ Header y Bienvenida
-- **01-dashboard-inicio-IDEMAB.html** - Cápsula de título "DASHBOARD" con indicador de inicio
-- **02-bienvenida-IDEMAB.html** - Mensaje de bienvenida personalizado
+- **01-dashboard-inicio-IDEMAB.html** - Título "DASHBOARD".
+- **02-bienvenida-IDEMAB.html** - Mensaje de bienvenida.
 
-### 2️⃣ Avisos para Administrativos y Docentes
-- **03-aviso-admin-docentes-IDEMAB.html** 👥 - Aviso de acceso para administrativos y docentes (con flecha)
-- **04-accesos-rapidos-IDEMAB.html** ⚡ - Accesos rápidos a herramientas principales
+### 2️⃣ Avisos y Accesos
+- **03-aviso-admin-docentes-IDEMAB.html** 👥 - Aviso docentes.
+- **04-accesos-rapidos-IDEMAB.html** ⚡ - Accesos rápidos.
+- **05-aviso-solo-visualizacion-IDEMAB.html** 👁️ - Solo visualización.
+- **06-reglamento-IDEMAB.html** - Reglamento.
+- **07-plataforma-inactiva-IDEMAB.html** - Aviso inactiva.
 
-### 3️⃣ Información Institucional
-- **05-aviso-solo-visualizacion-IDEMAB.html** 👁️ - Aviso de visualización con opción de requisición
-- **06-reglamento-IDEMAB.html** - Visualizador del reglamento institucional
-- **07-plataforma-inactiva-IDEMAB.html** - Aviso de plataforma inactiva
+### 3️⃣ Sección Administrativa
+- **08-aviso-solo-administrativos-IDEMAB.html** 🔒 - Aviso admin.
+- **09-informacion-chatbot-IDEMAB.html** - Chatbot.
+- **10-oferta-activa-IDEMAB.html** - Tabla oferta activa.
+- **11-requisiciones-IDEMAB.html** 📋 - Formularios requisiciones.
+- **12-correos-activos-IDEMAB.html** 📧 - Correos activos.
 
-### 4️⃣ Sección Administrativa
-- **08-aviso-solo-administrativos-IDEMAB.html** 🔒 - Aviso de acceso restringido a administrativos (con flecha)
-- **09-informacion-chatbot-IDEMAB.html** - Información del chatbot institucional
-- **10-oferta-activa-IDEMAB.html** - Tabla de diplomados, cursos y eventos activos
-- **11-requisiciones-IDEMAB.html** 📋 - Formularios de requisiciones
-- **12-correos-activos-IDEMAB.html** 📧 - Lista de cuentas de correo activas
-
-### 5️⃣ Sección Estudiantil
-- **13-aviso-dashboard-estudiantil-IDEMAB.html** 📚 - Aviso de visualización estudiantil (con flecha)
+### 4️⃣ Sección Estudiantil
+- **13-aviso-dashboard-estudiantil-IDEMAB.html** 📚 - Aviso estudiantil.
 
 ---
 
-## 🎨 Componentes de Avisos
+## Recursos Adicionales (Extras)
 
-### Avisos con Flecha Animada ⬇️
-1. **03-aviso-admin-docentes-IDEMAB.html** - Color secundario
-2. **08-aviso-solo-administrativos-IDEMAB.html** - Rojo (#dc3545)
-3. **13-aviso-dashboard-estudiantil-IDEMAB.html** - Color primario
+### Carpeta: `Extras/`
+**Archivo principal:** `extras-grid-idemab.html`
 
-### Avisos sin Flecha
-4. **05-aviso-solo-visualizacion-IDEMAB.html** - Amarillo (#ffc107)
+Grid de recursos con 6 secciones idéntico al sistema central pero con colores IDEMAB (#1C73BA).
 
 ---
 
-## 📊 Componentes Principales
+## 🛠️ Cómo Usar en Elementor
 
-### Tablas y Visualizadores
-- **10-oferta-activa-IDEMAB.html** - Tabla dinámica conectada a Google Sheets
-- **12-correos-activos-IDEMAB.html** - Tabla con cuentas de correo y estadísticas
-
-### Formularios
-- **11-requisiciones-IDEMAB.html** - Tarjetas con enlaces a Google Forms
+1. **Editar Página**: Usar Elementor.
+2. **Widget HTML**: Arrastrar widget HTML.
+3. **Pegar Código**: Copiar TODO el contenido del archivo HTML (incluyendo `<style>` y `<script>`).
+4. **Guardar**: Publicar cambios.
 
 ---
 
-## 🎯 Flujo de Navegación
-
-```
-┌─────────────────────────────────────┐
-│  01 - Dashboard Inicio              │
-│  02 - Bienvenida                    │
-└─────────────────────────────────────┘
-              ↓
-┌─────────────────────────────────────┐
-│  SECCIÓN ADMIN/DOCENTES             │
-│  03 - Aviso Admin/Docentes 👥⬇️     │
-│  04 - Accesos Rápidos ⚡            │
-│  05 - Aviso Solo Visualización 👁️  │
-│  06 - Reglamento                    │
-│  07 - Plataforma Inactiva           │
-└─────────────────────────────────────┘
-              ↓
-┌─────────────────────────────────────┐
-│  SECCIÓN ADMINISTRATIVA             │
-│  08 - Aviso Solo Administrativos🔒⬇️│
-│  09 - Información Chatbot           │
-│  10 - Oferta Activa (Tabla)         │
-│  11 - Requisiciones                 │
-│  12 - Correos Activos               │
-└─────────────────────────────────────┘
-              ↓
-┌─────────────────────────────────────┐
-│  SECCIÓN ESTUDIANTIL                │
-│  13 - Aviso Dashboard Estudiantil📚⬇│
-└─────────────────────────────────────┘
-```
-
----
-
-## 🛠️ Plataforma y Tecnología
-
-### Stack Tecnológico
-- **CMS**: WordPress
-- **LMS**: LearnDash / Tutor LMS
-- **Constructor**: Elementor Pro
-- **Hosting**: https://panel.idemab.com
-
-### Implementación de Componentes HTML
-
-Todos los componentes HTML de este proyecto están diseñados para ser implementados en **Elementor** usando el widget HTML.
-
-#### Cómo Usar en Elementor:
-
-1. **Editar Página/Template**
-   - Ir a la página del dashboard que deseas editar
-   - Abrir con Elementor
-
-2. **Agregar Widget HTML**
-   - Buscar "HTML" en el panel de widgets de Elementor
-   - Arrastrar el widget a la sección deseada
-
-3. **Copiar y Pegar Código**
-   - Abrir el archivo HTML del componente
-   - Copiar TODO el contenido (incluyendo `<style>` y `<script>`)
-   - Pegar en el widget HTML de Elementor
-
-4. **Guardar y Publicar**
-   - Guardar cambios en Elementor
-   - Publicar la página
-
----
-
-## 📝 Notas Importantes
-
-- ✅ Todos los archivos usan los colores institucionales de IDEMAB
-- ✅ Diseño responsive para móviles y tablets
-- ✅ Avisos con flechas animadas para mejorar UX
-- ✅ Numeración secuencial del 01 al 13
-- ✅ Sufijo `-IDEMAB` en todos los archivos para identificación
-- ✅ Archivo consolidado disponible: `seccion-iniicio.html`
-
----
-
-## Última Actualización
-
-**Fecha:** 2 de enero de 2026  
-**Versión:** 3.0
+**Versión:** 4.0 (Update Headers 1024px)
+**Fecha:** Enero 2026
