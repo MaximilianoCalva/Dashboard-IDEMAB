@@ -53,7 +53,7 @@
                 "operation": "getAll",
                 "limit": 1,
                 "options": {
-                    "search": "={{ $json['Correo'] }}"
+                    "search": "={{ ($json['Correo'] || '').toString().trim() }}"
                 }
             },
             "name": "Find WP User by Email",
