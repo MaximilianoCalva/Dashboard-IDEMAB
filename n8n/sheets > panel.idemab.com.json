@@ -140,7 +140,7 @@
         },
         {
             "parameters": {
-                "jsCode": "// Get current roles from WordPress user\nconst currentRoles = $input.first().json.roles || [];\n\n// Get the role to add from the Google Sheet\nconst roleToAdd = $('Loop Rows').item.json['Rol'];\n\n// Add role if not already present\nlet updatedRoles = [...currentRoles];\nif (!updatedRoles.includes(roleToAdd)) {\n  updatedRoles.push(roleToAdd);\n}\n\n// Remove 'sinpago' if present (student is now active)\nupdatedRoles = updatedRoles.filter(r => r !== 'sinpago');\n\n// Return the user ID and updated roles\nreturn {\n  id: $input.first().json.id,\n  roles: updatedRoles\n};"
+                "jsCode": "// Get current roles from WordPress user\nconst currentRoles = $input.first().json.roles || [];\n\n// Get the role string from Google Sheet and split by comma\nconst roleString = $('Loop Rows').item.json['Rol'] || '';\nconst rolesToAdd = roleString.split(',').map(r => r.trim()).filter(r => r.length > 0);\n\n// Add roles if not already present\nlet updatedRoles = [...currentRoles];\nrolesToAdd.forEach(role => {\n  if (!updatedRoles.includes(role)) {\n    updatedRoles.push(role);\n  }\n});\n\n// Remove 'sinpago' if present (student is now active)\nupdatedRoles = updatedRoles.filter(r => r !== 'sinpago');\n\n// Return the user ID and updated roles\nreturn {\n  id: $input.first().json.id,\n  roles: updatedRoles\n};"
             },
             "name": "Process Active Role",
             "type": "n8n-nodes-base.code",
@@ -153,7 +153,7 @@
         },
         {
             "parameters": {
-                "jsCode": "// Get current roles from WordPress user\nconst currentRoles = $input.first().json.roles || [];\n\n// Get the role to remove from the Google Sheet\nconst roleToRemove = $('Loop Rows').item.json['Rol'];\n\n// Remove the specific role\nlet updatedRoles = currentRoles.filter(r => r !== roleToRemove);\n\n// Add 'sinpago' if not already present\nconst standardRoles = ['subscriber', 'customer', 'administrator', 'editor', 'author', 'contributor'];\nconst hasOtherActiveRoles = updatedRoles.some(r => !standardRoles.includes(r) && r !== 'sinpago');\n\nif (!hasOtherActiveRoles) {\n  if (!updatedRoles.includes('sinpago')) {\n    updatedRoles.push('sinpago');\n  }\n}\n\n// Return the user ID and updated roles\nreturn {\n  id: $input.first().json.id,\n  roles: updatedRoles\n};"
+                "jsCode": "// Get current roles from WordPress user\nconst currentRoles = $input.first().json.roles || [];\n\n// Get the role string from Google Sheet and split by comma\nconst roleString = $('Loop Rows').item.json['Rol'] || '';\nconst rolesToRemove = roleString.split(',').map(r => r.trim()).filter(r => r.length > 0);\n\n// Remove specified roles\nlet updatedRoles = currentRoles.filter(r => !rolesToRemove.includes(r));\n\n// Add 'sinpago' if not already present\nconst standardRoles = ['subscriber', 'customer', 'administrator', 'editor', 'author', 'contributor'];\nconst hasOtherActiveRoles = updatedRoles.some(r => !standardRoles.includes(r) && r !== 'sinpago');\n\nif (!hasOtherActiveRoles) {\n  if (!updatedRoles.includes('sinpago')) {\n    updatedRoles.push('sinpago');\n  }\n}\n\n// Return the user ID and updated roles\nreturn {\n  id: $input.first().json.id,\n  roles: updatedRoles\n};"
             },
             "name": "Process Inactive Role",
             "type": "n8n-nodes-base.code",
