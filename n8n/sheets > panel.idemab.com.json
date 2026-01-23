@@ -212,6 +212,20 @@
         },
         {
             "parameters": {
+                "amount": 2,
+                "unit": "seconds"
+            },
+            "name": "Wait for WP API",
+            "type": "n8n-nodes-base.wait",
+            "typeVersion": 1,
+            "position": [
+                1392,
+                -176
+            ],
+            "id": "e5f6a7b8-c9d0-1234-5678-901234567890"
+        },
+        {
+            "parameters": {
                 "rule": {
                     "interval": [
                         {
@@ -334,6 +348,17 @@
             ]
         },
         "Update User Roles": {
+            "main": [
+                [
+                    {
+                        "node": "Wait for WP API",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Wait for WP API": {
             "main": [
                 [
                     {
