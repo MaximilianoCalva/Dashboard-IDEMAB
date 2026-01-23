@@ -96,7 +96,7 @@
         {
             "parameters": {
                 "method": "GET",
-                "url": "={{ \"https://panel.idemab.com/wp-json/wp/v2/users/\" + $json.id }}",
+                "url": "={{ \"https://panel.idemab.com/wp-json/wp/v2/users/\" + $json.id + \"?context=edit\" }}",
                 "authentication": "predefinedCredentialType",
                 "nodeCredentialType": "wordpressApi",
                 "options": {}
