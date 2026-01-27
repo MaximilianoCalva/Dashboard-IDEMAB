@@ -22,10 +22,10 @@
             "type": "n8n-nodes-base.googleSheets",
             "typeVersion": 3,
             "position": [
-                -160,
-                -64
+                -176,
+                -96
             ],
-            "id": "2711e49d-9d04-4a4d-b726-07fba1a2c674",
+            "id": "33091cc0-85ca-4553-83a8-a645d20d0e0f",
             "credentials": {
                 "googleSheetsOAuth2Api": {
                     "id": "LPf4qZBpPvUSzo8f",
@@ -35,16 +35,16 @@
         },
         {
             "parameters": {
-                "jsCode": "const users = {};\nconst items = $input.all();\n\n// Helper to find key fuzzily\nfunction findKey(obj, target) {\n  if (!obj) return null;\n  const keys = Object.keys(obj);\n  return keys.find(k => k.trim().toLowerCase() === target.toLowerCase());\n}\n\nfor (const item of items) {\n  // Find robust keys\n  const mailKey = findKey(item.json, 'Correo') || findKey(item.json, 'Email');\n  const statusKey = findKey(item.json, 'Status') || findKey(item.json, 'Estatus');\n  const roleKey = findKey(item.json, 'Rol') || findKey(item.json, 'Role');\n\n  if (!mailKey) continue; // No email column? Skip.\n\n  const email = (item.json[mailKey] || '').toString().trim().toLowerCase();\n  if (!email) continue;\n\n  if (!users[email]) {\n    users[email] = {\n      json: {\n        ...item.json,\n        activeRoles: [],\n        inactiveRoles: []\n      }\n    };\n  }\n\n  // Handle keys\n  const statusRaw = statusKey ? (item.json[statusKey] || '').toString().toLowerCase() : '';\n  const roleVal = roleKey ? (item.json[roleKey] || '') : '';\n  \n  const roles = roleVal.toString().split(',').map(r => r.trim()).filter(r => r.length > 0);\n\n  // Check for 'activo' or 'active'\n  if (statusRaw.includes('activo') || statusRaw === 'active') {\n    users[email].json.activeRoles.push(...roles);\n  } else {\n    // Assume anything else with roles implies inactive or just inactive status\n    // But strictly, we only care if status explicitly says 'inactivo' or is handled as else case in original logic.\n    // Original logic: if (status === 'activo') ... else ...\n    // So we keep that behavior for compatibility:\n    users[email].json.inactiveRoles.push(...roles);\n  }\n}\n\n// Result array\nconst result = [];\nfor (const email in users) {\n  const u = users[email];\n  // Unique\n  u.json.activeRoles = [...new Set(u.json.activeRoles)];\n  u.json.inactiveRoles = [...new Set(u.json.inactiveRoles)];\n  \n  // Conflict resolution: Active wins.\n  u.json.inactiveRoles = u.json.inactiveRoles.filter(r => !u.json.activeRoles.includes(r));\n  \n  result.push(u);\n}\nreturn result;"
+                "jsCode": "const users = {};\nconst items = $input.all();\n\n// Helper to find key fuzzily\nfunction findKey(obj, target) {\n  if (!obj) return null;\n  const keys = Object.keys(obj);\n  return keys.find(k => k.trim().toLowerCase() === target.toLowerCase());\n}\n\nfor (const item of items) {\n  // Find robust keys\n  const mailKey = findKey(item.json, 'Correo') || findKey(item.json, 'Email');\n  const statusKey = findKey(item.json, 'Status') || findKey(item.json, 'Estatus');\n  const roleKey = findKey(item.json, 'Rol') || findKey(item.json, 'Role');\n\n  if (!mailKey) continue; // No email column? Skip.\n\n  const email = (item.json[mailKey] || '').toString().trim().toLowerCase();\n  if (!email) continue;\n\n  if (!users[email]) {\n    users[email] = {\n      json: {\n        ...item.json,\n        activeRoles: [],\n        inactiveRoles: []\n      }\n    };\n  }\n\n  // Handle keys\n  const statusRaw = statusKey ? (item.json[statusKey] || '').toString().trim().toLowerCase() : '';\n  const roleVal = roleKey ? (item.json[roleKey] || '') : '';\n  \n  const roles = roleVal.toString().split(',').map(r => r.trim()).filter(r => r.length > 0);\n\n  // BUG FIX: Strictly check for 'activo'\n  // Previous logic: includes('activo') matched 'inactivo'!\n  const isActive = statusRaw === 'activo' || statusRaw === 'active';\n\n  if (isActive) {\n    users[email].json.activeRoles.push(...roles);\n  } else {\n    // Inactive\n    users[email].json.inactiveRoles.push(...roles);\n  }\n}\n\n// Result array\nconst result = [];\nfor (const email in users) {\n  const u = users[email];\n  // Unique\n  u.json.activeRoles = [...new Set(u.json.activeRoles)];\n  u.json.inactiveRoles = [...new Set(u.json.inactiveRoles)];\n  \n  // Conflict resolution: Active wins.\n  u.json.inactiveRoles = u.json.inactiveRoles.filter(r => !u.json.activeRoles.includes(r));\n  \n  result.push(u);\n}\nreturn result;"
             },
             "name": "Group Data",
             "type": "n8n-nodes-base.code",
             "typeVersion": 1,
             "position": [
-                60,
-                -64
+                32,
+                -96
             ],
-            "id": "node-group-data"
+            "id": "ee4a4352-b096-4e92-8869-715e99be193c"
         },
         {
             "parameters": {
@@ -54,15 +54,14 @@
             "type": "n8n-nodes-base.splitInBatches",
             "typeVersion": 1,
             "position": [
-                260,
-                -64
+                240,
+                -96
             ],
-            "id": "7c6d37e4-bc7d-40fa-af5d-4362d13d6078",
+            "id": "ce0f9a44-1dc1-4108-9746-eb30919f5f5b",
             "name": "Loop Rows"
         },
         {
             "parameters": {
-                "method": "GET",
                 "url": "https://panel.idemab.com/wp-json/wp/v2/users",
                 "authentication": "predefinedCredentialType",
                 "nodeCredentialType": "wordpressApi",
@@ -78,23 +77,24 @@
                             "value": "edit"
                         }
                     ]
-                }
+                },
+                "options": {}
             },
             "name": "Find User API",
             "type": "n8n-nodes-base.httpRequest",
             "typeVersion": 3,
             "position": [
-                460,
-                -64
+                432,
+                -96
             ],
-            "id": "7f21aa39-4dcd-473e-91d3-98f9370e2768",
+            "id": "7c17cf05-28f2-4903-a0c6-d4bff8fd2759",
+            "alwaysOutputData": true,
             "credentials": {
                 "wordpressApi": {
                     "id": "GGX1tpDnmmmYStXF",
                     "name": "https://panel.idemab.com/"
                 }
-            },
-            "alwaysOutputData": true
+            }
         },
         {
             "parameters": {
@@ -104,10 +104,10 @@
             "type": "n8n-nodes-base.code",
             "typeVersion": 1,
             "position": [
-                660,
-                -64
+                640,
+                -96
             ],
-            "id": "5c72d87d-2989-40f6-a5ad-508c7d7a6346"
+            "id": "4b0466d2-de85-43ac-8241-d003f80415b8"
         },
         {
             "parameters": {
@@ -124,26 +124,26 @@
             "type": "n8n-nodes-base.if",
             "typeVersion": 1,
             "position": [
-                860,
-                -64
+                832,
+                -96
             ],
-            "id": "da85c403-User-Found-Check"
+            "id": "c0606519-a0be-4852-81ba-6b575e73190c"
         },
         {
             "parameters": {
-                "method": "GET",
                 "url": "={{ \"https://panel.idemab.com/wp-json/wp/v2/users/\" + $json.wpUser.id + \"?context=edit\" }}",
                 "authentication": "predefinedCredentialType",
-                "nodeCredentialType": "wordpressApi"
+                "nodeCredentialType": "wordpressApi",
+                "options": {}
             },
             "name": "Get Current Roles",
             "type": "n8n-nodes-base.httpRequest",
             "typeVersion": 3,
             "position": [
-                1060,
-                -64
+                1040,
+                -96
             ],
-            "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+            "id": "f1c1e1b3-d478-4e31-a824-d34acd366413",
             "credentials": {
                 "wordpressApi": {
                     "id": "GGX1tpDnmmmYStXF",
@@ -153,16 +153,16 @@
         },
         {
             "parameters": {
-                "jsCode": "const wpUser = $input.first().json;\nconst loopItem = $('Loop Rows').item.json;\nconst activeRoles = loopItem.activeRoles || [];\n\n// SOLUCIÓN DEFINITIVA: Sobrescribir completamente\n// Ignoramos roles actuales, asignamos solo lo que dice el Sheet\nconst finalRoles = [...activeRoles];\n\nreturn {\n  json: {\n    id: wpUser.id,\n    roles: finalRoles,\n    _debug: {\n        sheet_roles: activeRoles,\n        wp_previous: wpUser.roles || [],\n        wp_new: finalRoles\n    }\n  }\n};"
+                "jsCode": "const wpUser = $input.first().json;\nconst loopItem = $('Loop Rows').item.json;\nconst sheetRoles = loopItem.activeRoles || [];\n\n// 1. Identify roles to PRESERVE from the current WP user\n// We want to keep bbPress roles (usually start with 'bbp_') and 'administrator' logic if needed.\nconst currentRoles = wpUser.roles || [];\nconst rolesToPreserve = currentRoles.filter(role => {\n    // Keep bbPress roles\n    if (role.startsWith('bbp_')) return true;\n    // Optional: Keep administrator to prevent accidental lockout\n    if (role === 'administrator') return true;\n    return false;\n});\n\n// 2. Combine Preserved Roles + Sheet Roles\nconst finalRoles = [...new Set([...rolesToPreserve, ...sheetRoles])];\n\n// 3. Fallback: Always ensure at least 'subscriber'\nif (finalRoles.length === 0) {\n    finalRoles.push('subscriber');\n}\n\nreturn {\n  json: {\n    id: wpUser.id,\n    roles: finalRoles,\n    _debug: {\n        sheet_roles: sheetRoles,\n        preserved_roles: rolesToPreserve,\n        wp_previous: wpUser.roles || [],\n        wp_new: finalRoles\n    }\n  }\n};"
             },
             "name": "Calculate Roles",
             "type": "n8n-nodes-base.code",
             "typeVersion": 1,
             "position": [
-                1260,
-                -64
+                1248,
+                -96
             ],
-            "id": "node-calc-roles"
+            "id": "c88e80f0-bd9c-4dd3-a942-c5ce1b9c7e6a"
         },
         {
             "parameters": {
@@ -179,18 +179,18 @@
             "type": "n8n-nodes-base.httpRequest",
             "typeVersion": 3,
             "position": [
-                1460,
-                -64
+                1440,
+                -96
             ],
-            "id": "d4e5f6a7-b8c9-0123-def0-234567890123",
+            "id": "49c0d883-d124-438c-a5bf-f549f637eff2",
+            "alwaysOutputData": true,
             "credentials": {
                 "wordpressApi": {
                     "id": "GGX1tpDnmmmYStXF",
                     "name": "https://panel.idemab.com/"
                 }
             },
-            "continueOnFail": true,
-            "alwaysOutputData": true
+            "continueOnFail": true
         },
         {
             "parameters": {
@@ -201,54 +201,25 @@
             "type": "n8n-nodes-base.wait",
             "typeVersion": 1,
             "position": [
-                1660,
-                -176
+                1648,
+                -208
             ],
-            "id": "e5f6a7b8-c9d0-1234-5678-901234567890"
+            "id": "82896632-6ed8-48ec-97a2-b1e0b6650eb5",
+            "webhookId": "d28306b1-4217-426f-82bc-77398c60efb4"
         },
         {
             "parameters": {},
             "type": "n8n-nodes-base.noOp",
             "typeVersion": 1,
             "position": [
-                1860,
-                -64
+                1840,
+                -96
             ],
-            "id": "62e178bb-d532-480e-81ee-cc84f25563d9",
+            "id": "0b8cb909-06e2-4ec0-bd35-2f50b34fa5e4",
             "name": "Continue Loop"
-        },
-        {
-            "parameters": {
-                "rule": {
-                    "interval": [
-                        {
-                            "field": "minutes"
-                        }
-                    ]
-                }
-            },
-            "type": "n8n-nodes-base.scheduleTrigger",
-            "typeVersion": 1.3,
-            "position": [
-                -360,
-                -64
-            ],
-            "id": "9bb40cff-0b36-46f9-8862-abef5b2bb50c",
-            "name": "Schedule Trigger"
         }
     ],
     "connections": {
-        "Schedule Trigger": {
-            "main": [
-                [
-                    {
-                        "node": "Read Student Status",
-                        "type": "main",
-                        "index": 0
-                    }
-                ]
-            ]
-        },
         "Read Student Status": {
             "main": [
                 [
@@ -380,7 +351,6 @@
     },
     "pinData": {},
     "meta": {
-        "templateCredsSetupCompleted": true,
         "instanceId": "3a54f9858961d6a8de3ba4e915ac8d0e4ae80bcd3db7f786bb8f5b77301d8dd3"
     }
 }
