@@ -1,0 +1,115 @@
+<!-- Snippet: Aula TV - Angeloterapia (WordPress Ready) -->
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    .idemab-aula {
+        font-family: 'Inter', sans-serif;
+    }
+</style>
+
+<div class="idemab-aula max-w-7xl mx-auto p-4">
+    <div class="text-center mb-10">
+        <h2 class="text-3xl font-bold text-gray-800 tracking-tight">Aula TV - Angeloterapia</h2>
+        <p class="text-gray-500 mt-2">Clases y sesiones grabadas.</p>
+
+        <!-- Module Selector (Visual toggle, could be expanded) -->
+        <div class="mt-4 flex justify-center gap-2">
+            <button onclick="loadAula('M1')"
+                class="px-4 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-700 hover:bg-purple-200 transition-colors">Módulo
+                1</button>
+            <button onclick="loadAula('M2')"
+                class="px-4 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors">Módulo
+                2</button>
+            <button onclick="loadAula('M3')"
+                class="px-4 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors">Módulo
+                3</button>
+            <button onclick="loadAula('M4')"
+                class="px-4 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors">Módulo
+                4</button>
+        </div>
+    </div>
+
+    <div id="loading-aula" class="text-center py-10">
+        <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-purple-600 mx-auto"></div>
+        <p class="text-gray-400 text-sm mt-3">Cargando clases...</p>
+    </div>
+
+    <div id="aula-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 hidden">
+        <!-- Cards injected here -->
+    </div>
+
+    <div id="error-msg-aula" class="hidden text-center text-red-500 py-4"></div>
+</div>
+
+<script>
+    // AGREGA AQUI TU URL DEL DEPLOY
+    const API_URL_ANGEL = 'URL_DEL_DEPLOY_APPS_SCRIPT';
+
+    // Default Module
+    let currentModule = 'M1';
+
+    async function loadAula(module = 'M1') {
+        currentModule = module;
+        const grid = document.getElementById('aula-grid');
+        const loader = document.getElementById('loading-aula');
+        const errorDiv = document.getElementById('error-msg-aula');
+
+        // Reset UI
+        grid.innerHTML = '';
+        grid.classList.add('hidden');
+        errorDiv.classList.add('hidden');
+        loader.classList.remove('hidden');
+
+        try {
+            const res = await fetch(`${API_URL_ANGEL}?action=getAulaTV&module=${module}`);
+            const json = await res.json();
+
+            if (json.status === 'success') {
+                if (json.data.length === 0) {
+                    grid.innerHTML = '<p class="text-center text-gray-400 col-span-3">No hay clases disponibles en este módulo.</p>';
+                } else {
+                    grid.innerHTML = json.data.map(item => {
+                        if (item.status && String(item.status).toLowerCase().includes('inactivo')) return '';
+
+                        let thumb = 'https://via.placeholder.com/640x360.png?text=Clase+Angeloterapia';
+                        if (item.link && (item.link.includes('youtube') || item.link.includes('youtu.be'))) {
+                            try {
+                                const vid = item.link.split('v=')[1] ? item.link.split('v=')[1].split('&')[0] : item.link.split('/').pop();
+                                thumb = `https://img.youtube.com/vi/${vid}/hqdefault.jpg`;
+                            } catch (e) { }
+                        }
+
+                        return `
+                        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow group">
+                            <div class="relative h-48 bg-gray-100 overflow-hidden">
+                                <img src="${thumb}" alt="${item.titulo}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <a href="${item.link}" target="_blank" class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all">
+                                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg transform scale-0 group-hover:scale-100 transition-transform">
+                                        <svg class="w-5 h-5 text-purple-600 pl-1" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/></svg>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="p-5">
+                                <h3 class="text-lg font-bold text-gray-800 mb-2 leading-tight">${item.titulo}</h3>
+                                <p class="text-gray-500 text-sm mb-4 line-clamp-3">${item.descripcion || ''}</p>
+                                <a href="${item.link}" target="_blank" class="text-purple-600 hover:text-purple-800 text-sm font-semibold flex items-center gap-1">
+                                    Ver Clase <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                                </a>
+                            </div>
+                        </div>`;
+                    }).join('');
+                }
+                grid.classList.remove('hidden');
+            } else {
+                throw new Error(json.message);
+            }
+        } catch (e) {
+            errorDiv.innerHTML = `Error: ${e.message}`;
+            errorDiv.classList.remove('hidden');
+        } finally {
+            loader.classList.add('hidden');
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => loadAula('M1'));
+</script>
