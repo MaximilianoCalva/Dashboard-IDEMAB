@@ -1,16 +1,17 @@
 import os
 
 # Configuration
-output_dir = "Dashboard/Angeloterapia"
-modules = ["M1", "M2", "M3", "M4"]
-api_placeholder = "https://script.google.com/macros/s/AKfycbyVGsdhFzRbWMMqME_hKu1p-3JJQrl7ePm4nAGRLD6gwy7u_Wx5RIO0De5I7DhbYpWr/exec"
+output_dir = "Dashboard/HombresVida"
+modules = [f"M{i}" for i in range(1, 5)] # 4 Modules
+# PLACEHOLDER - USER MUST UPDATE THIS
+api_placeholder = "https://script.google.com/macros/s/AKfycbzdkYRId4l5QN_f8a47bpujvbjoYVd5Vp4ZObmbfQDMcE61tlM4Qsy0Hhi6G3p_DeKqCA/exec"
 
 # Ensure output directory exists
 os.makedirs(output_dir, exist_ok=True)
 
 # Templates
 template_aula = """
-<!-- Snippet: Aula TV {module} - Angeloterapia -->
+<!-- Snippet: Aula TV {module} - Taller Los Hombres De Tu Vida -->
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style> 
@@ -26,7 +27,7 @@ template_aula = """
     <!-- Header -->
     <div class="mb-12 border-l-4 border-purple-600 pl-6">
         <h2 class="text-4xl font-bold text-gray-900 idemab-font-title tracking-tight mb-2">Módulo {module_num}</h2>
-        <p class="text-lg text-gray-500 idemab-font-body">Curso de Angeloterapia</p>
+        <p class="text-lg text-gray-500 idemab-font-body">Taller Los Hombres De Tu Vida</p>
     </div>
 
     <!-- Skeleton Loader -->
@@ -59,7 +60,7 @@ template_aula = """
 <script>
     (function() {{
         const API_URL = '{api_url}';
-        const TAB_NAME = 'Aula TV {module}';
+        const TAB_PREFIX = 'Aula TV {module}';
         const GRID_ID = 'aula-grid-{module}';
         const LOAD_ID = 'loading-aula-{module}';
         const ERR_ID = 'error-msg-{module}';
@@ -90,7 +91,8 @@ template_aula = """
             try {{
                 const res = await fetch(API_URL);
                 const allData = await res.json();
-                const items = allData[TAB_NAME] || [];
+                const exactKey = Object.keys(allData).find(k => k.trim().startsWith(TAB_PREFIX));
+                const items = exactKey ? allData[exactKey] : [];
                 
                 if (items.length === 0) {{
                     grid.innerHTML = `
@@ -164,7 +166,7 @@ template_aula = """
 """
 
 template_material = """
-<!-- Snippet: Material {module} - Angeloterapia -->
+<!-- Snippet: Material {module} - Taller Los Hombres De Tu Vida -->
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style> .idemab-material {{ font-family: 'Inter', sans-serif; }} </style>
@@ -172,7 +174,7 @@ template_material = """
 <div class="idemab-material max-w-7xl mx-auto p-4">
     <div class="text-center mb-8">
         <h2 class="text-2xl font-bold text-gray-800 tracking-tight">Material - Módulo {module_num}</h2>
-        <p class="text-gray-500 mt-1">Recursos del Módulo {module_num} (Curso de Angeloterapia)</p>
+        <p class="text-gray-500 mt-1">Recursos del Módulo {module_num} (Taller Los Hombres De Tu Vida)</p>
     </div>
 
     <div id="loading-mat-{module}" class="text-center py-10">
@@ -190,7 +192,7 @@ template_material = """
 <script>
     (function() {{
         const API_URL = '{api_url}';
-        const TAB_NAME = 'Material {module}'; // EXACT Tab Name
+        const TAB_PREFIX = 'Material {module}'; // Prefix to search for
         const LIST_ID = 'list-mat-{module}';
         const LOAD_ID = 'loading-mat-{module}';
         const ERR_ID = 'error-mat-{module}';
@@ -204,7 +206,9 @@ template_material = """
                 const res = await fetch(API_URL);
                 const allData = await res.json();
                 
-                const items = allData[TAB_NAME] || [];
+                // Fuzzy Match
+                const exactKey = Object.keys(allData).find(k => k.trim().startsWith(TAB_PREFIX));
+                const items = exactKey ? allData[exactKey] : [];
                 
                 if (items.length === 0) {{
                     list.innerHTML = '<p class="text-center text-gray-400">No hay materiales disponibles.</p>';
@@ -248,17 +252,16 @@ template_material = """
 
 # Generate files
 for mod in modules:
-    # Remove 'M' from 'M1' for display number
     mod_num = mod.replace('M', '')
     
     # Aula TV
-    file_aula = f"{output_dir}/snippet-angeloterapia-{mod.lower()}-aula-tv.html"
+    file_aula = f"{output_dir}/snippet-hombres-{mod.lower()}-aula-tv.html"
     with open(file_aula, "w", encoding="utf-8") as f:
         f.write(template_aula.format(module=mod, module_num=mod_num, api_url=api_placeholder))
     print(f"Generated: {file_aula}")
 
     # Material
-    file_mat = f"{output_dir}/snippet-angeloterapia-{mod.lower()}-material.html"
+    file_mat = f"{output_dir}/snippet-hombres-{mod.lower()}-material.html"
     with open(file_mat, "w", encoding="utf-8") as f:
         f.write(template_material.format(module=mod, module_num=mod_num, api_url=api_placeholder))
     print(f"Generated: {file_mat}")

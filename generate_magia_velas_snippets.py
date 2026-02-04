@@ -1,16 +1,17 @@
 import os
 
 # Configuration
-output_dir = "Dashboard/Angeloterapia"
-modules = ["M1", "M2", "M3", "M4"]
-api_placeholder = "https://script.google.com/macros/s/AKfycbyVGsdhFzRbWMMqME_hKu1p-3JJQrl7ePm4nAGRLD6gwy7u_Wx5RIO0De5I7DhbYpWr/exec"
+output_dir = "Dashboard/MagiaVelas"
+modules = [f"M{i}" for i in range(1, 5)] # 4 Modules
+# PLACEHOLDER - USER MUST UPDATE THIS
+api_placeholder = "https://script.google.com/macros/s/AKfycbyc_SSEnQATqWV2l6r9DgY-Sa7WatYRsWVpvLYxF6aqTYPZIsotoeZLIkDbC9T4TLBCfQ/exec"
 
 # Ensure output directory exists
 os.makedirs(output_dir, exist_ok=True)
 
 # Templates
 template_aula = """
-<!-- Snippet: Aula TV {module} - Angeloterapia -->
+<!-- Snippet: Aula TV {module} - Magia de las Velas -->
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style> 
@@ -26,7 +27,7 @@ template_aula = """
     <!-- Header -->
     <div class="mb-12 border-l-4 border-purple-600 pl-6">
         <h2 class="text-4xl font-bold text-gray-900 idemab-font-title tracking-tight mb-2">Módulo {module_num}</h2>
-        <p class="text-lg text-gray-500 idemab-font-body">Curso de Angeloterapia</p>
+        <p class="text-lg text-gray-500 idemab-font-body">Taller La Magia de las Velas</p>
     </div>
 
     <!-- Skeleton Loader -->
@@ -59,7 +60,14 @@ template_aula = """
 <script>
     (function() {{
         const API_URL = '{api_url}';
-        const TAB_NAME = 'Aula TV {module}';
+        // Note: The screenshot showed "AulaTV M1" (no space?), but traditionally we use "Aula TV".
+        // Use a prefix that matches loosely, or try both.
+        // We'll use "Aula" to be safe and filter in the logic, or stick to standard "Aula TV" and hope the user fixes the tab name if needed.
+        // Let's stick to "Aula TV {module}" and add a comment in the JS to fallback if needed.
+        const TAB_PREFIX = 'Aula TV {module}'; 
+        // Also support "AulaTV {module}" just in case
+        const TAB_PREFIX_ALT = 'AulaTV {module}';
+
         const GRID_ID = 'aula-grid-{module}';
         const LOAD_ID = 'loading-aula-{module}';
         const ERR_ID = 'error-msg-{module}';
@@ -90,7 +98,14 @@ template_aula = """
             try {{
                 const res = await fetch(API_URL);
                 const allData = await res.json();
-                const items = allData[TAB_NAME] || [];
+                
+                // Fuzzy Match for standard "Aula TV M1" or "AulaTV M1"
+                let exactKey = Object.keys(allData).find(k => k.trim().toLowerCase().startsWith(TAB_PREFIX.toLowerCase()));
+                if (!exactKey) {{
+                     exactKey = Object.keys(allData).find(k => k.trim().toLowerCase().startsWith(TAB_PREFIX_ALT.toLowerCase()));
+                }}
+
+                const items = exactKey ? allData[exactKey] : [];
                 
                 if (items.length === 0) {{
                     grid.innerHTML = `
@@ -164,7 +179,7 @@ template_aula = """
 """
 
 template_material = """
-<!-- Snippet: Material {module} - Angeloterapia -->
+<!-- Snippet: Material {module} - Magia de las Velas -->
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style> .idemab-material {{ font-family: 'Inter', sans-serif; }} </style>
@@ -172,7 +187,7 @@ template_material = """
 <div class="idemab-material max-w-7xl mx-auto p-4">
     <div class="text-center mb-8">
         <h2 class="text-2xl font-bold text-gray-800 tracking-tight">Material - Módulo {module_num}</h2>
-        <p class="text-gray-500 mt-1">Recursos del Módulo {module_num} (Curso de Angeloterapia)</p>
+        <p class="text-gray-500 mt-1">Recursos del Módulo {module_num} (Taller La Magia de las Velas)</p>
     </div>
 
     <div id="loading-mat-{module}" class="text-center py-10">
@@ -190,7 +205,7 @@ template_material = """
 <script>
     (function() {{
         const API_URL = '{api_url}';
-        const TAB_NAME = 'Material {module}'; // EXACT Tab Name
+        const TAB_PREFIX = 'Material {module}'; // Prefix to search for
         const LIST_ID = 'list-mat-{module}';
         const LOAD_ID = 'loading-mat-{module}';
         const ERR_ID = 'error-mat-{module}';
@@ -204,7 +219,9 @@ template_material = """
                 const res = await fetch(API_URL);
                 const allData = await res.json();
                 
-                const items = allData[TAB_NAME] || [];
+                // Fuzzy Match
+                const exactKey = Object.keys(allData).find(k => k.trim().startsWith(TAB_PREFIX));
+                const items = exactKey ? allData[exactKey] : [];
                 
                 if (items.length === 0) {{
                     list.innerHTML = '<p class="text-center text-gray-400">No hay materiales disponibles.</p>';
@@ -248,17 +265,16 @@ template_material = """
 
 # Generate files
 for mod in modules:
-    # Remove 'M' from 'M1' for display number
     mod_num = mod.replace('M', '')
     
     # Aula TV
-    file_aula = f"{output_dir}/snippet-angeloterapia-{mod.lower()}-aula-tv.html"
+    file_aula = f"{output_dir}/snippet-velas-{mod.lower()}-aula-tv.html"
     with open(file_aula, "w", encoding="utf-8") as f:
         f.write(template_aula.format(module=mod, module_num=mod_num, api_url=api_placeholder))
     print(f"Generated: {file_aula}")
 
     # Material
-    file_mat = f"{output_dir}/snippet-angeloterapia-{mod.lower()}-material.html"
+    file_mat = f"{output_dir}/snippet-velas-{mod.lower()}-material.html"
     with open(file_mat, "w", encoding="utf-8") as f:
         f.write(template_material.format(module=mod, module_num=mod_num, api_url=api_placeholder))
     print(f"Generated: {file_mat}")

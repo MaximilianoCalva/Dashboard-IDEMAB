@@ -5,173 +5,255 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hub PNL y Neurocoaching - IDEMAB</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <style>
-        /* Variables y Reset local para el snippet */
-        .idemab-hub-container {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            width: 100%;
-            /* Removed fixed max-width to adapt to any parent container */
-            margin: 0;
-            padding: 20px 0;
-            /* Vertical padding only, let parent handle horizontal */
-            box-sizing: border-box;
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #f8fafc;
         }
 
-        .idemab-hub-header {
-            text-align: center;
-            margin-bottom: 40px;
-            border-bottom: 2px solid #e0e0e0;
-            padding-bottom: 20px;
+        .hub-icon-gradient {
+            background: linear-gradient(135deg, #1D71B8 0%, #2CAC66 100%);
         }
 
-        .idemab-hub-title {
-            color: #1D71B8;
-            /* Azul IDEMAB */
-            font-size: 2em;
-            font-weight: 800;
-            margin: 0 0 10px 0;
-            letter-spacing: -0.5px;
+        .card-hover-effect {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .idemab-hub-subtitle {
-            color: #666;
-            font-size: 1.1em;
-            margin: 0;
-        }
-
-        .idemab-modules-grid {
-            display: grid;
-            /* Auto-fit adapts to availability. Min 220px to fit in tighter columns */
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            width: 100%;
-        }
-
-        /* Tarjeta de Módulo */
-        .idemab-module-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            border: 1px solid #f0f0f0;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            text-decoration: none;
-            position: relative;
-            min-height: 280px;
-            /* Force taller cards */
-        }
-
-        .idemab-module-card:hover {
+        .card-hover-effect:hover {
             transform: translateY(-5px);
-            box-shadow: 0 12px 25px rgba(29, 113, 184, 0.15);
-            border-color: #2CAC66;
-            /* Verde IDEMAB al hover */
-        }
-
-        /* Encabezado de tarjeta (Color/Icono) */
-        .card-header {
-            background: linear-gradient(135deg, #1D71B8 0%, #155a96 100%);
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .module-icon {
-            font-size: 2.5em;
-            color: white;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-        }
-
-        /* Cuerpo de tarjeta */
-        .card-body {
-            padding: 25px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-
-        .module-label {
-            font-size: 0.8em;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #2CAC66;
-            /* Verde IDEMAB */
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .module-title {
-            font-size: 1.2em;
-            color: #333;
-            font-weight: 700;
-            margin: 0 0 15px 0;
-            line-height: 1.4;
-        }
-
-        /* Botón simulado */
-        .card-btn {
-            margin-top: auto;
-            padding: 10px 20px;
-            background: #f5f7fa;
-            color: #1D71B8;
-            border-radius: 50px;
-            font-size: 0.9em;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-
-        .idemab-module-card:hover .card-btn {
-            background: #1D71B8;
-            color: white;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .idemab-hub-title {
-                font-size: 1.5em;
-            }
-
-            .idemab-modules-grid {
-                grid-template-columns: 1fr;
-                /* Una columna en móvil */
-            }
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
     </style>
 </head>
 
-<body>
+<body class="p-4 md:p-8">
 
-    <div class="idemab-hub-container">
+    <div class="max-w-7xl mx-auto">
 
-        <div class="idemab-hub-header">
-            <h1 class="idemab-hub-title">Diplomado PNL y Neurocoaching</h1>
-            <p class="idemab-hub-subtitle">Selecciona un módulo para acceder al contenido</p>
+        <!-- Header Section -->
+        <div
+            class="flex flex-col md:flex-row items-center justify-center md:justify-start gap-6 mb-12 text-center md:text-left">
+            <div
+                class="w-20 h-20 rounded-3xl hub-icon-gradient flex items-center justify-center shadow-lg shadow-blue-500/20 shrink-0">
+                <span class="text-4xl">🧠</span>
+            </div>
+            <div>
+                <h1 class="text-3xl md:text-4xl font-extrabold text-slate-800 tracking-tight mb-2">
+                    Diplomado PNL y Neurocoaching
+                </h1>
+                <div class="h-1 w-24 bg-emerald-500 rounded-full mx-auto md:mx-0 mb-3"></div>
+                <p class="text-slate-500 font-medium text-lg">
+                    Explora los módulos de tu formación profesional
+                </p>
+            </div>
         </div>
 
-        <div class="idemab-modules-grid">
+        <!-- Modules Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-            <!-- MÓDULO 01 -->
-            <a href="https://panel.idemab.com/curso/diplomado-pnl-y-neurocoaching-modulo-01/"
-                class="idemab-module-card">
-                <div class="card-header">
-                    <div class="module-icon">🧠</div>
+            <!-- MÓDULO 01 (Blue) -->
+            <a href="https://panel.idemab.com/curso/dpnlm01/"
+                class="group relative bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm card-hover-effect flex flex-col h-full overflow-hidden">
+                <div
+                    class="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-full -mr-10 -mt-10 opacity-50 group-hover:scale-150 transition-transform duration-500">
                 </div>
-                <div class="card-body">
-                    <span class="module-label">Módulo 01</span>
-                    <h3 class="module-title">DIPLOMADO PNL Y NEUROCOACHING – MODULO 01</h3>
-                    <span class="card-btn">Acceder al Curso ➡</span>
+                <div class="relative z-10 flex-grow">
+                    <div class="flex items-center justify-between mb-4">
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-2xl group-hover:rotate-12 transition-transform duration-300">
+                            🧠
+                        </div>
+                        <span
+                            class="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-bold uppercase tracking-wider rounded-full">Módulo
+                            01</span>
+                    </div>
+                    <h3
+                        class="text-xl font-bold text-slate-800 leading-tight mb-2 group-hover:text-blue-700 transition-colors">
+                        PNL y Neurocoaching Módulo 01</h3>
+                    <p class="text-sm text-slate-500">Accede al contenido exclusivo del módulo.</p>
+                </div>
+                <div
+                    class="relative z-10 mt-6 pt-4 border-t border-slate-50 flex items-center justify-between text-blue-600 font-semibold text-sm group-hover:text-emerald-600 transition-colors">
+                    <span>Acceder al contenido</span>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5 transform group-hover:translate-x-1 transition-transform" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                </div>
+            </a>
+
+            <!-- MÓDULO 02 (Emerald) -->
+            <a href="https://panel.idemab.com/curso/dpnlm02/"
+                class="group relative bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm card-hover-effect flex flex-col h-full overflow-hidden">
+                <div
+                    class="absolute top-0 right-0 w-32 h-32 bg-emerald-50 rounded-full -mr-10 -mt-10 opacity-50 group-hover:scale-150 transition-transform duration-500">
+                </div>
+                <div class="relative z-10 flex-grow">
+                    <div class="flex items-center justify-between mb-4">
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl group-hover:rotate-12 transition-transform duration-300">
+                            🧠
+                        </div>
+                        <span
+                            class="px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-bold uppercase tracking-wider rounded-full">Módulo
+                            02</span>
+                    </div>
+                    <h3
+                        class="text-xl font-bold text-slate-800 leading-tight mb-2 group-hover:text-emerald-700 transition-colors">
+                        PNL y Neurocoaching Módulo 02</h3>
+                    <p class="text-sm text-slate-500">Accede al contenido exclusivo del módulo.</p>
+                </div>
+                <div
+                    class="relative z-10 mt-6 pt-4 border-t border-slate-50 flex items-center justify-between text-blue-600 font-semibold text-sm group-hover:text-emerald-600 transition-colors">
+                    <span>Acceder al contenido</span>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5 transform group-hover:translate-x-1 transition-transform" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                </div>
+            </a>
+
+            <!-- MÓDULO 03 (Purple) -->
+            <a href="https://panel.idemab.com/curso/dpnlm03/"
+                class="group relative bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm card-hover-effect flex flex-col h-full overflow-hidden">
+                <div
+                    class="absolute top-0 right-0 w-32 h-32 bg-purple-50 rounded-full -mr-10 -mt-10 opacity-50 group-hover:scale-150 transition-transform duration-500">
+                </div>
+                <div class="relative z-10 flex-grow">
+                    <div class="flex items-center justify-between mb-4">
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center text-2xl group-hover:rotate-12 transition-transform duration-300">
+                            🧠
+                        </div>
+                        <span
+                            class="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-bold uppercase tracking-wider rounded-full">Módulo
+                            03</span>
+                    </div>
+                    <h3
+                        class="text-xl font-bold text-slate-800 leading-tight mb-2 group-hover:text-purple-700 transition-colors">
+                        PNL y Neurocoaching Módulo 03</h3>
+                    <p class="text-sm text-slate-500">Accede al contenido exclusivo del módulo.</p>
+                </div>
+                <div
+                    class="relative z-10 mt-6 pt-4 border-t border-slate-50 flex items-center justify-between text-blue-600 font-semibold text-sm group-hover:text-emerald-600 transition-colors">
+                    <span>Acceder al contenido</span>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5 transform group-hover:translate-x-1 transition-transform" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                </div>
+            </a>
+
+            <!-- MÓDULO 04 (Amber) -->
+            <a href="https://panel.idemab.com/curso/dpnlm04/"
+                class="group relative bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm card-hover-effect flex flex-col h-full overflow-hidden">
+                <div
+                    class="absolute top-0 right-0 w-32 h-32 bg-amber-50 rounded-full -mr-10 -mt-10 opacity-50 group-hover:scale-150 transition-transform duration-500">
+                </div>
+                <div class="relative z-10 flex-grow">
+                    <div class="flex items-center justify-between mb-4">
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-2xl group-hover:rotate-12 transition-transform duration-300">
+                            🧠
+                        </div>
+                        <span
+                            class="px-3 py-1 bg-amber-50 text-amber-700 text-xs font-bold uppercase tracking-wider rounded-full">Módulo
+                            04</span>
+                    </div>
+                    <h3
+                        class="text-xl font-bold text-slate-800 leading-tight mb-2 group-hover:text-amber-700 transition-colors">
+                        PNL y Neurocoaching Módulo 04</h3>
+                    <p class="text-sm text-slate-500">Accede al contenido exclusivo del módulo.</p>
+                </div>
+                <div
+                    class="relative z-10 mt-6 pt-4 border-t border-slate-50 flex items-center justify-between text-blue-600 font-semibold text-sm group-hover:text-emerald-600 transition-colors">
+                    <span>Acceder al contenido</span>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5 transform group-hover:translate-x-1 transition-transform" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                </div>
+            </a>
+
+            <!-- MÓDULO 05 (Rose) -->
+            <a href="https://panel.idemab.com/curso/dpnlm05/"
+                class="group relative bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm card-hover-effect flex flex-col h-full overflow-hidden">
+                <div
+                    class="absolute top-0 right-0 w-32 h-32 bg-rose-50 rounded-full -mr-10 -mt-10 opacity-50 group-hover:scale-150 transition-transform duration-500">
+                </div>
+                <div class="relative z-10 flex-grow">
+                    <div class="flex items-center justify-between mb-4">
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-2xl group-hover:rotate-12 transition-transform duration-300">
+                            🧠
+                        </div>
+                        <span
+                            class="px-3 py-1 bg-rose-50 text-rose-700 text-xs font-bold uppercase tracking-wider rounded-full">Módulo
+                            05</span>
+                    </div>
+                    <h3
+                        class="text-xl font-bold text-slate-800 leading-tight mb-2 group-hover:text-rose-700 transition-colors">
+                        PNL y Neurocoaching Módulo 05</h3>
+                    <p class="text-sm text-slate-500">Accede al contenido exclusivo del módulo.</p>
+                </div>
+                <div
+                    class="relative z-10 mt-6 pt-4 border-t border-slate-50 flex items-center justify-between text-blue-600 font-semibold text-sm group-hover:text-emerald-600 transition-colors">
+                    <span>Acceder al contenido</span>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5 transform group-hover:translate-x-1 transition-transform" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                </div>
+            </a>
+
+            <!-- MÓDULO 06 (Indigo) -->
+            <a href="https://panel.idemab.com/curso/dpnlm06/"
+                class="group relative bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm card-hover-effect flex flex-col h-full overflow-hidden">
+                <div
+                    class="absolute top-0 right-0 w-32 h-32 bg-indigo-50 rounded-full -mr-10 -mt-10 opacity-50 group-hover:scale-150 transition-transform duration-500">
+                </div>
+                <div class="relative z-10 flex-grow">
+                    <div class="flex items-center justify-between mb-4">
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-2xl group-hover:rotate-12 transition-transform duration-300">
+                            🧠
+                        </div>
+                        <span
+                            class="px-3 py-1 bg-indigo-50 text-indigo-700 text-xs font-bold uppercase tracking-wider rounded-full">Módulo
+                            06</span>
+                    </div>
+                    <h3
+                        class="text-xl font-bold text-slate-800 leading-tight mb-2 group-hover:text-indigo-700 transition-colors">
+                        PNL y Neurocoaching Módulo 06</h3>
+                    <p class="text-sm text-slate-500">Accede al contenido exclusivo del módulo.</p>
+                </div>
+                <div
+                    class="relative z-10 mt-6 pt-4 border-t border-slate-50 flex items-center justify-between text-blue-600 font-semibold text-sm group-hover:text-emerald-600 transition-colors">
+                    <span>Acceder al contenido</span>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5 transform group-hover:translate-x-1 transition-transform" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
                 </div>
             </a>
 
         </div>
-
     </div>
-
 </body>
 
 </html>

@@ -1,0 +1,83 @@
+
+<!-- Snippet: Material M4 - PNL & Neurocoaching -->
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style> .idemab-material { font-family: 'Inter', sans-serif; } </style>
+
+<div class="idemab-material max-w-7xl mx-auto p-4">
+    <div class="text-center mb-8">
+        <h2 class="text-2xl font-bold text-gray-800 tracking-tight">Material - Módulo 4</h2>
+        <p class="text-gray-500 mt-1">Recursos del Módulo 4 (Diplomado en PNL y Neurocoaching)</p>
+    </div>
+
+    <div id="loading-mat-M4" class="text-center py-10">
+        <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600 mx-auto"></div>
+        <p class="text-gray-400 text-sm mt-3">Cargando material...</p>
+    </div>
+
+    <div id="list-mat-M4" class="grid grid-cols-1 gap-4 hidden max-w-4xl mx-auto">
+        <!-- Items injected here -->
+    </div>
+    
+    <div id="error-mat-M4" class="hidden text-center text-red-500 py-4"></div>
+</div>
+
+<script>
+    (function() {
+        const API_URL = 'https://script.google.com/macros/s/AKfycbzrE-lPGyBIbhsLkH3Aasuund25T9siYiFLlVctZhwdlz9s-A09uUUYAYqS6o0VhCTn/exec';
+        const TAB_PREFIX = 'Material M4'; // Prefix to search for
+        const LIST_ID = 'list-mat-M4';
+        const LOAD_ID = 'loading-mat-M4';
+        const ERR_ID = 'error-mat-M4';
+
+        async function load() {
+            const list = document.getElementById(LIST_ID);
+            const loader = document.getElementById(LOAD_ID);
+            const errorDiv = document.getElementById(ERR_ID);
+
+            try {
+                const res = await fetch(API_URL);
+                const allData = await res.json();
+                
+                // Fuzzy Match
+                const exactKey = Object.keys(allData).find(k => k.trim().startsWith(TAB_PREFIX));
+                const items = exactKey ? allData[exactKey] : [];
+                
+                if (items.length === 0) {
+                    list.innerHTML = '<p class="text-center text-gray-400">No hay materiales disponibles.</p>';
+                } else {
+                    list.innerHTML = items.map(item => {
+                        if (item.status && String(item.status).toLowerCase().includes('inactivo')) return '';
+                        
+                        let icon = '<svg class="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>';
+                        if (item.formato && item.formato.toLowerCase().includes('pdf')) {
+                            icon = '<svg class="w-6 h-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>';
+                        }
+
+                        return `
+                        <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4 hover:bg-gray-50 transition-colors">
+                            <div class="flex items-start gap-4">
+                                <div class="mt-1">${icon}</div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-800">${item.titulo}</h3>
+                                    <p class="text-sm text-gray-500">${item.descripcion || ''}</p>
+                                </div>
+                            </div>
+                            <a href="${item.link}" target="_blank" class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors whitespace-nowrap">
+                                Descargar
+                            </a>
+                        </div>`;
+                    }).join('');
+                }
+                list.classList.remove('hidden');
+            } catch (e) {
+                errorDiv.innerHTML = `Error: ${e.message}`;
+                errorDiv.classList.remove('hidden');
+            } finally {
+                loader.classList.add('hidden');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', load);
+    })();
+</script>
